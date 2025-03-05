@@ -34,4 +34,8 @@ class Persona extends Model
     {
         return $this->hasMany(Documento::class, 'persona_id');
     }
+    public function canpes()
+    {
+        return $this->hasMany(Canpe::class);
+    }
 }

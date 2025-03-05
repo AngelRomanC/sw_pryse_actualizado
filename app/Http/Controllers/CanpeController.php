@@ -3,24 +3,45 @@
 namespace App\Http\Controllers;
 
 use App\Models\Canpe;
+use App\Models\Persona;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CanpeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
-     * Display a listing of the resource.
+     * Listar los registros de Canpe que pertenecen a las personas registradas por el usuario
      */
     public function index()
     {
-        //
+        $canpes = Canpe::whereHas('persona', function ($query) {
+            $query->where('user_id', auth()->id());
+        })->with('persona')->paginate(8);
+
+        return Inertia::render('Canpe/Index', [
+            'canpes' => $canpes
+        ]);
     }
 
+
+
+    
+
     /**
-     * Show the form for creating a new resource.
+     * Mostrar formulario de creación
      */
     public function create()
     {
-        //
+        // Solo obtener personas registradas por el usuario autenticado
+        $personas = Persona::where('user_id', auth()->id())->get();
+
+        return Inertia::render('Canpe/Create', [
+            'personas' => $personas
+        ]);
     }
 
     /**
@@ -28,7 +49,18 @@ class CanpeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'persona_id' => 'required|exists:personas,id',
+            'registrado_canpe' => 'required|string',
+            'estatus_canpe' => 'required|string',
+            'correo_canpe' => 'required|email|unique:canpes,correo_canpe',
+            'password_canpe' => 'required|string|min:6',
+            'inaccesible_canpe' => 'boolean'
+        ]);
+
+        Canpe::create($validated);
+
+        return redirect()->route('canpe.index')->with('success', 'Registro guardado correctamente');
     }
 
     /**
@@ -39,27 +71,54 @@ class CanpeController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    // Mostrar formulario de edición
     public function edit(Canpe $canpe)
     {
-        //
+        // Validar que la persona de este Canpe fue registrada por el usuario autenticado
+        if ($canpe->persona->user_id !== auth()->id()) {
+            return redirect()->route('canpe.index')->with('error', 'No tienes permiso para editar este registro.');
+        }
+
+        return Inertia::render('Canpe/Edit', [
+            'canpe' => $canpe
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // Actualizar un Canpe
     public function update(Request $request, Canpe $canpe)
     {
-        //
+        if ($canpe->persona->user_id !== auth()->id()) {
+            return redirect()->route('canpe.index')->with('error', 'No tienes permiso para actualizar este registro.');
+        }
+
+        $validated = $request->validate([
+            'registrado_canpe' => 'required|string',
+            'estatus_canpe' => 'required|string',
+            'correo_canpe' => 'required|email|unique:canpes,correo_canpe,' . $canpe->id,
+            'password_canpe' => 'nullable|string|min:6',
+            'inaccesible_canpe' => 'boolean'
+        ]);
+
+        if ($request->filled('password_canpe')) {
+            $validated['password_canpe'] = bcrypt($request->password_canpe);
+        } else {
+            unset($validated['password_canpe']);
+        }
+
+        $canpe->update($validated);
+
+        return redirect()->route('canpe.index')->with('success', 'Registro actualizado correctamente');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Eliminar un Canpe
     public function destroy(Canpe $canpe)
     {
-        //
+        if ($canpe->persona->user_id !== auth()->id()) {
+            return redirect()->route('canpe.index')->with('error', 'No tienes permiso para eliminar este registro.');
+        }
+
+        $canpe->delete();
+
+        return redirect()->route('canpe.index')->with('success', 'Registro eliminado correctamente');
     }
 }

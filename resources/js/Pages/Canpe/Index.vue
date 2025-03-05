@@ -1,160 +1,46 @@
-<script>
-import { Link, useForm } from '@inertiajs/vue3';
-import Swal from "sweetalert2";
-import Pagination from '@/Shared/Pagination.vue';
+<script setup>
+import { router } from '@inertiajs/vue3';
 import LayoutMain from '@/layouts/LayoutMain.vue';
-import {
-    mdiMonitorCellphone,
-    mdiTableBorder,
-    mdiTableOff,
-    mdiGithub,
-    mdiTagEdit,
-    mdiDeleteOutline,
-    mdiApplicationEdit, mdiTrashCan
-} from "@mdi/js";
-import TableSampleClients from "@/components/TableSampleClients.vue";
-import CardBox from "@/components/CardBox.vue";
-import SectionTitleLineWithButton from "@/components/SectionTitleLineWithButton.vue";
-import BaseLevel from "@/components/BaseLevel.vue";
-import BaseButtons from "@/components/BaseButtons.vue";
 import BaseButton from "@/components/BaseButton.vue";
-import CardBoxComponentEmpty from "@/components/CardBoxComponentEmpty.vue";
-import NotificationBar from "@/components/NotificationBar.vue";
 
+defineProps({
+    canpes: Object
+});
 
-
-export default {
-    props: {
-        titulo: { type: String, required: true },
-        personas: { type: Object, required: true },
-        routeName: { type: String, required: true },
-        loadingResults: { type: Boolean, required: true, default: true }
-
-    },
-    components: {
-        Link,
-        LayoutMain,
-        CardBox,
-        TableSampleClients,
-        SectionTitleLineWithButton,
-        BaseLevel,
-        BaseButtons,
-        BaseButton,
-        CardBoxComponentEmpty,
-        Pagination,
-        NotificationBar
-    },
-    setup() {
-        const form = useForm({
-            nombre: '',
-            apellido_paterno: '',
-            apellido_materno: '',
-            sexo: '',
-           
-            rfc: '',
-           
-            curp: '' }
-        ); //n index.vue, como no es un formulario de creación ni edición, generalmente no definimos los campos dentro.
-
-        const eliminar = (id) => {
-            Swal.fire({
-                title: "¿Esta seguro?",
-                text: "Esta acción no se puede revertir",
-                icon: "warning",
-                showCancelButton: true,
-                cancelButtonColor: "#d33",
-                confirmButtonColor: "#3085d6",
-                confirmButtonText: "Si!, eliminar registro!",
-            }).then((res) => {
-                if (res.isConfirmed) {
-                    form.delete(route("persona.destroy", id));
-
-                }
-            });
-        };
-
-        return {
-            form, eliminar, mdiMonitorCellphone,
-            mdiTableBorder,
-            mdiTableOff,
-            mdiGithub,
-            mdiTagEdit,
-            mdiDeleteOutline,
-            mdiApplicationEdit, mdiTrashCan,
-        }
-    },
-   
-}
+const destroy = (id) => {
+    if (confirm("¿Estás seguro de que deseas eliminar este registro?")) {
+        router.delete(route('canpe.destroy', id));
+    }
+};
 </script>
 
 <template>
     <LayoutMain>
-        <SectionTitleLineWithButton :title="titulo" main>
-            <BaseButton :href="'persona/create'" color="warning" label="Agregar persona" />
+        <div class="flex justify-between">
+            <h1 class="text-xl font-bold">Lista de Canpe</h1>
+            <BaseButton :href="route('canpe.create')" color="primary" label="Nuevo Registro" />
+        </div>
 
-        </SectionTitleLineWithButton>
-
-        <NotificationBar v-if="$page.props.flash.success" color="success" :icon="mdiInformation" :outline="false">
-            {{ $page.props.flash.success }}
-        </NotificationBar>
-
-        <NotificationBar v-if="$page.props.flash.error" color="danger" :icon="mdiInformation" :outline="false">
-            {{ $page.props.flash.error }}
-        </NotificationBar>
-
-        <CardBox v-if="personas.data.length < 1">
-            <CardBoxComponentEmpty />
-        </CardBox>
-
-        <CardBox v-else class="mb-6" has-table>
-            <table>
-                <thead>
-
-                    <tr>
-                        <th />
-                        <th>Nombre</th>
-                        <th>Apellido Paterno</th>
-                        <th>Apellido Materno</th>
-                        <th>Sexo</th>
-                        <th>RFC</th>
-                        <th>CURP</th>
-                        <th>Acciones</th>
-                        <th />
-                    </tr>
-                </thead>
-                <tbody>
-
-
-                    <!-- Sección para alumnos -->
-                    <tr v-for="persona in personas.data" :key="persona.id">
-                        <td class="align-items-center">
-                        </td>
-
-                        <td>{{ persona.nombre }}</td>
-                        <td>{{ persona.apellido_paterno }}</td>
-                        <td>{{ persona.apellido_materno }}</td>
-                        <td>{{ persona.sexo }}</td>
-                        <td>{{ persona.rfc }}</td>
-                        <td>{{ persona.curp }}</td>
-
-                        <td class="before:hidden lg:w-1 whitespace-nowrap">
-                            <BaseButtons type="justify-start lg:justify-end" no-wrap>
-
-                                <BaseButton color="warning" :icon="mdiTagEdit" small
-                                    :href="route('persona.edit', persona.id)" />
-                                <BaseButton color="danger" :icon="mdiDeleteOutline" small
-                                    @click="eliminar(persona.id)" />
-                            </BaseButtons>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <Pagination :currentPage="personas.current_page" :links="personas.links" :total="personas.links.length - 2">
-            </Pagination>
-
-
-        </CardBox>
-
+        <table class="w-full border-collapse border mt-4">
+            <thead>
+                <tr>
+                    <th class="border p-2">Persona</th>
+                    <th class="border p-2">Correo</th>
+                    <th class="border p-2">Estatus</th>
+                    <th class="border p-2">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="canpe in canpes.data" :key="canpe.id">
+                    <td class="border p-2">{{ canpe.persona.nombre }} {{ canpe.persona.apellido_paterno }}</td>
+                    <td class="border p-2">{{ canpe.correo_canpe }}</td>
+                    <td class="border p-2">{{ canpe.estatus_canpe }}</td>
+                    <td class="border p-2">
+                        <BaseButton :href="route('canpe.edit', canpe.id)" color="secondary" label="Editar" />
+                        <BaseButton @click="destroy(canpe.id)" color="danger" label="Eliminar" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </LayoutMain>
 </template>

@@ -46,8 +46,7 @@ const submit = () => {
     <h1 class="text-2xl font-bold mb-4">Cargar Documentos</h1>
 
     <form @submit.prevent="submit">
-      <!-- Seleccionar persona -->
-       <!-- Seleccionar persona -->
+      <!-- Seleccionar persona -->      
        <div class="mb-4">
         <select id="id_persona" v-model="form.persona_id"
           class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" required>

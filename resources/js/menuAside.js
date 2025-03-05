@@ -189,5 +189,20 @@ export default [
     icon: mdiBookshelf,
     role: "Admin",
   }, 
+  {
+    href:"/canpe",
+    label: "Información Canpe ",
+    icon: mdiBookshelf,
+    role: "Admin",
+  }, 
+  {
+    href:"/canpe",
+    label: "Información Canpe ",
+    icon: mdiBookshelf,
+    role: "Alumno",
+  }, 
+  
 
+
+  
 ];
