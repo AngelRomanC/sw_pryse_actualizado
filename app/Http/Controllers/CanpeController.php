@@ -18,6 +18,7 @@ class CanpeController extends Controller
      */
     public function index()
     {
+        // Obtener solo los Canpes que pertenecen al usuario autenticado
         $canpes = Canpe::whereHas('persona', function ($query) {
             $query->where('user_id', auth()->id());
         })->with('persona')->paginate(8);
@@ -29,15 +30,18 @@ class CanpeController extends Controller
 
 
 
-    
+
 
     /**
      * Mostrar formulario de creación
      */
     public function create()
     {
-        // Solo obtener personas registradas por el usuario autenticado
-        $personas = Persona::where('user_id', auth()->id())->get();
+
+        // Obtener las personas que pertenecen al usuario autenticado y que no tienen un Canpe registrado
+        $personas = Persona::where('user_id', auth()->id())
+            ->whereDoesntHave('canpes') // Filtrar solo las personas sin Canpe
+            ->get();
 
         return Inertia::render('Canpe/Create', [
             'personas' => $personas

@@ -125,7 +125,7 @@ export default {
                 <tbody>
 
 
-                    <!-- Sección para alumnos -->
+                    <!-- Sección para personas -->
                     <tr v-for="persona in personas.data" :key="persona.id">
                         <td class="align-items-center">
                         </td>

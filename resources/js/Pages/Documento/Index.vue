@@ -98,6 +98,7 @@ const personasFiltradas = computed(() => {
         <NotificationBar v-if="$page.props.flash.error" color="danger" :icon="'mdi-information'" :outline="false">
             {{ $page.props.flash.error }}
         </NotificationBar>
+        
         <div class="mb-4">
             <label for="filtroEstado">Filtrar por estado:</label>
             <select id="filtroEstado" v-model="estadoFiltro" class="border p-2 rounded">

@@ -37,6 +37,7 @@ const guardar = () => {
 
         <CardBox form @submit.prevent="guardar">
 
+            <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
             <FormField :error="form.errors.nombre">
                 <FormControl v-model="form.nombre" :placeholder="form.nombre ? '' : 'Nombre'" />
             </FormField>
