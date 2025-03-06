@@ -202,7 +202,12 @@ export default [
     role: "Alumno",
   }, 
   
-
+  {
+    href:"/cuip",
+    label: "Información Cuip ",
+    icon: mdiBookshelf,
+    role: "Admin",
+  }, 
 
   
 ];

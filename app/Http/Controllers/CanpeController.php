@@ -29,9 +29,6 @@ class CanpeController extends Controller
     }
 
 
-
-
-
     /**
      * Mostrar formulario de creación
      */
@@ -55,10 +52,10 @@ class CanpeController extends Controller
     {
         $validated = $request->validate([
             'persona_id' => 'required|exists:personas,id',
-            'registrado_canpe' => 'required|string',
-            'estatus_canpe' => 'required|string',
-            'correo_canpe' => 'required|email|unique:canpes,correo_canpe',
-            'password_canpe' => 'required|string|min:6',
+            'registrado_canpe' => 'nullable|string',
+            'estatus_canpe' => 'nullable|string',
+            'correo_canpe' => 'nullable|email|unique:canpes,correo_canpe',
+            'password_canpe' => 'nullable|string|min:6',
             'inaccesible_canpe' => 'boolean'
         ]);
 
@@ -97,17 +94,12 @@ class CanpeController extends Controller
 
         $validated = $request->validate([
             'registrado_canpe' => 'required|string',
-            'estatus_canpe' => 'required|string',
-            'correo_canpe' => 'required|email|unique:canpes,correo_canpe,' . $canpe->id,
+            'estatus_canpe' => 'nullable|string',
+            'correo_canpe' => 'nullable|email|unique:canpes,correo_canpe,' . $canpe->id,
             'password_canpe' => 'nullable|string|min:6',
             'inaccesible_canpe' => 'boolean'
         ]);
-
-        if ($request->filled('password_canpe')) {
-            $validated['password_canpe'] = bcrypt($request->password_canpe);
-        } else {
-            unset($validated['password_canpe']);
-        }
+     
 
         $canpe->update($validated);
 

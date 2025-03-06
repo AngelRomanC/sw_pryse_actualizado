@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('canpes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('persona_id')->constrained('personas')->onDelete('cascade'); 
-            $table->string('registrado_canpe', 50);
-            $table->string('estatus_canpe', 50);            
-            $table->string('correo_canpe', 100)->unique();;
-            $table->string('password_canpe', 100);
+            $table->string('registrado_canpe', 50)->nullable();
+            $table->string('estatus_canpe', 50)->nullable();            
+            $table->string('correo_canpe', 50)->nullable()->unique();;
+            $table->string('password_canpe', 50)->nullable();
             $table->boolean('inaccesible_canpe');
             $table->timestamps();
         });

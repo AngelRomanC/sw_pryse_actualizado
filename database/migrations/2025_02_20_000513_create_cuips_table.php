@@ -14,8 +14,12 @@ return new class extends Migration
         Schema::create('cuips', function (Blueprint $table) {
             $table->id();
             $table->foreignId('persona_id')->constrained('personas')->onDelete('cascade'); 
-            $table->string('folio_cuip', 50);
-            $table->date('fecha_expedicion');
+            $table->string('folio_cuip', 50)->nullable();
+            $table->date('fecha_expedicion')->nullable();
+            $table->string('estatus_rfc', 50)->nullable();
+            $table->string('vigencia_ine', 50)->nullable();
+            $table->string('estado_ine', 50)->nullable();
+            $table->string('valida_ine', 50)->nullable();
             $table->timestamps();  
         });
     }

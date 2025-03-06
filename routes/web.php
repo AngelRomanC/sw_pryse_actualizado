@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AcademicoController;
 use App\Http\Controllers\CanpeController;
+use App\Http\Controllers\CuipController;
 use App\Http\Controllers\InteligenciaController;
 use App\Http\Controllers\HabitoController;
 use App\Http\Controllers\GrupoController;
@@ -146,17 +147,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/notificaciones/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
     Route::get('/notificaciones/count-no-leidas', [NotificationController::class, 'NotificationCount'])->name('notifications.unreadCount');
 
-    //Crear Personas 
+   
+   
+   
+    //Crear Personas PRYSE
     Route::resource('persona', PersonaController::class);
 
 
     Route::resource('documento', controller: DocumentoController::class);
     Route::resource('canpe', CanpeController::class);
+    Route::resource('cuip', CuipController::class);
 
-    // Route::resource('documento/show', DocumentoController::class);
-    //Route::get('documento/{id}/descargar', [DocumentoController::class, 'download'])->name('documento.download');
-
-    //Route::post('documento/{id}', [DocumentoController::class, 'store']);
 
 
 
