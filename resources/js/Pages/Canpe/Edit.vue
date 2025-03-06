@@ -76,7 +76,7 @@ const titulo = "Editar información de Canpe";
                 
 
                 <div class="mt-6 flex space-x-4">
-                    <BaseButton @click="submit" type="submit" color="info" label="Actualizar" />
+                    <BaseButton @click="submit" type="submit" color="info" outline label="Actualizar" />
                     <BaseButton :href="route('canpe.index')" type="reset" color="danger" outline label="Cancelar" />
                 </div>
 

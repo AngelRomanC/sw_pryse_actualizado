@@ -2,6 +2,7 @@
 import { useForm } from '@inertiajs/vue3';
 import LayoutMain from '@/layouts/LayoutMain.vue';
 import BaseButton from "@/components/BaseButton.vue";
+import BaseButtons from "@/components/BaseButtons.vue";
 import SectionTitleLineWithButton from "@/components/SectionTitleLineWithButton.vue";
 import { ref } from 'vue';
 import Swal from 'sweetalert2';
@@ -30,7 +31,6 @@ const submit = () => {
 <template>
     <LayoutMain>
         <SectionTitleLineWithButton title="Registrar Información Canpe" main>
-            <BaseButton :href="route('canpe.index')" color="secondary" label="Volver" />
         </SectionTitleLineWithButton>
 
         <form @submit.prevent="submit" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -64,16 +64,20 @@ const submit = () => {
                 <label class="block text-gray-700 text-sm font-bold mb-2">Contraseña22222</label>
                 <input v-model="form.password_canpe" type="text" class="border rounded w-full p-2">
             </div>
-            
+
 
             <div class="mb-4">
                 <label class="text-gray-700 text-sm mr-4">Inaccesible Canpe</label>
                 <input v-model="form.inaccesible_canpe" type="radio" :value="1" class="mr-2"> Sí
                 <input v-model="form.inaccesible_canpe" type="radio" :value="0" class="mr-2"> No
             </div>
+            <BaseButtons>
+                
+                <BaseButton @click="submit"  color="info" outline label="Crear" />
 
+                <BaseButton :href="route('canpe.index')" type="reset" color="danger" outline label="Cancelar" />
 
-            <BaseButton type="submit" color="primary" label="Guardar" :disabled="form.processing" />
+            </BaseButtons>
         </form>
     </LayoutMain>
 </template>

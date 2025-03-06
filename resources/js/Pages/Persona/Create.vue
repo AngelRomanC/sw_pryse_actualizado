@@ -147,7 +147,7 @@ export default {
 
             <template #footer>
                 <BaseButtons>
-                    <BaseButton @click="handleSubmit" type="submit" color="info" label="Crear" />
+                    <BaseButton @click="handleSubmit" type="submit" color="info" outline label="Crear" />
                     <BaseButton :href="route(`usuarios.index`)" type="reset" color="danger" outline label="Cancelar" />
                 </BaseButtons>
             </template>

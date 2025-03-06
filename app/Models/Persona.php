@@ -36,6 +36,11 @@ class Persona extends Model
     }
     public function canpes()
     {
-        return $this->hasOne(Canpe::class); 
+        return $this->hasOne(Canpe::class);
+    }
+
+    public function cuips()
+    {
+        return $this->hasOne(Cuip::class);
     }
 }

@@ -204,7 +204,7 @@ export default [
   
   {
     href:"/cuip",
-    label: "Información Cuip ",
+    label: "Información Cuip--------------- ",
     icon: mdiBookshelf,
     role: "Admin",
   }, 

@@ -16,7 +16,7 @@ import NotificationBar from "@/components/NotificationBar.vue";
 
 
 defineProps({
-    canpes: Object
+    cuips: Object
 });
 
 const destroy = (id) => {
@@ -31,7 +31,7 @@ const destroy = (id) => {
         confirmButtonText: "Si!, eliminar registro!",
     }).then((res) => {
         if (res.isConfirmed) {
-            router.delete(route("canpe.destroy", id));
+            router.delete(route("cuip.destroy", id));
 
 
         }
@@ -44,7 +44,7 @@ const titulo = "Información de canpe";
 <template>
     <LayoutMain>
         <SectionTitleLineWithButton :title="titulo" main>
-            <BaseButton :href="'canpe/create'" color="warning" label="Nuevo registro canpe" />
+            <BaseButton :href="'cuip/create'" color="warning" label="Nuevo registro canpe" />
 
         </SectionTitleLineWithButton>
 
@@ -56,7 +56,7 @@ const titulo = "Información de canpe";
             {{ $page.props.flash.error }}
         </NotificationBar>
 
-        <CardBox v-if="canpes.data.length < 1">
+        <CardBox v-if="cuips.data.length < 1">
             <CardBoxComponentEmpty />
         </CardBox>
 
@@ -66,32 +66,32 @@ const titulo = "Información de canpe";
                     <tr>
                         <th />
                         <th class="border p-2">Persona</th>
-                        <th class="border p-2">Correo</th>
-                        <th class="border p-2">Estatus</th>
+                        <th class="border p-2">Folio CUIP</th>
+                        <th class="border p-2">EstatuS RFC</th>
                         <th class="border p-2">Acciones</th>
                         <th />
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="canpe in canpes.data" :key="canpe.id">
+                    <tr v-for="cuip in cuips.data" :key="cuip.id">
                         <td class="align-items-center">
                         </td>
-                        <td class="border p-2">{{ canpe.persona.nombre }} {{ canpe.persona.apellido_paterno }}</td>
-                        <td class="border p-2">{{ canpe.correo_canpe }}</td>
-                        <td class="border p-2">{{ canpe.estatus_canpe }}</td>
+                        <td class="border p-2">{{ cuip.persona.nombre }} {{ cuip.persona.apellido_paterno }}</td>
+                        <td class="border p-2">{{ cuip.folio_cuip }}</td>
+                        <td class="border p-2">{{ cuip.estatus_rfc }}</td>
 
                         <td class="before:hidden lg:w-1 whitespace-nowrap">
                             <BaseButtons type="justify-start lg:justify-end" no-wrap>
                                 <BaseButton color="warning" :icon="mdiTagEdit" small
-                                    :href="route('canpe.edit', canpe.id)" />
-                                <BaseButton color="danger" :icon="mdiDeleteOutline" small @click="destroy(canpe.id)" />
+                                    :href="route('cuip.edit', cuip.id)" />
+                                <BaseButton color="danger" :icon="mdiDeleteOutline" small @click="destroy(cuip.id)" />
                             </BaseButtons>
                         </td>
                     </tr>
                 </tbody>
             </table>
 
-            <Pagination :currentPage="canpes.current_page" :links="canpes.links" :total="canpes.links.length - 2">
+            <Pagination :currentPage="cuips.current_page" :links="cuips.links" :total="cuips.links.length - 2">
             </Pagination>
 
         </CardBox>

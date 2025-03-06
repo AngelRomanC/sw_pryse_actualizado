@@ -3,6 +3,8 @@ import { useForm } from '@inertiajs/vue3';
 import LayoutMain from '@/layouts/LayoutMain.vue';
 import NotificationBar from "@/components/NotificationBar.vue";
 import BaseButton from '@/components/BaseButton.vue';
+import BaseButtons from "@/components/BaseButtons.vue";
+
 
 
 // Recibimos las personas desde el controlador
@@ -46,8 +48,8 @@ const submit = () => {
     <h1 class="text-2xl font-bold mb-4">Cargar Documentos</h1>
 
     <form @submit.prevent="submit">
-      <!-- Seleccionar persona -->      
-       <div class="mb-4">
+      <!-- Seleccionar persona -->
+      <div class="mb-4">
         <select id="id_persona" v-model="form.persona_id"
           class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" required>
           <option value="" disabled>Seleccione una persona</option>
@@ -125,13 +127,13 @@ const submit = () => {
 
       <!-- Botón de enviar -->
       <div class="mt-6">
-        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-          :disabled="form.processing">
-          Guardar Documento
-        </button>
-        <BaseButton :href="route('documento.index')" type="reset" color="danger" outline
-        label="Cancelar" />
-      </div>
+        <BaseButtons>
+        <BaseButton @click="submit" type="submit" color="info" outline label="Crear" />
+
+        <BaseButton :href="route('documento.index')" type="reset" color="danger" outline label="Cancelar" />
+      
+      </BaseButtons>
+    </div>
     </form>
   </LayoutMain>
 </template>
